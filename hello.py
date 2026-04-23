@@ -12,21 +12,30 @@ transactions: list[tuple[str, str, str, float]] = [
 ("TNX010", "ACC600", "deposit", 756.9),
 ("TNX011", "ACC600", "withdrawal", 964.8)
 ]
-total_number_of_transactions: int = 0
-total_deposit_amount: float = 0.0
-total_withdrawn_amount: float = 0.0
-final_balance_per_account: float = 0.0
 
-def summarize_financial_transactions():
-    total_number_of_transactions = len(transactions)
-    return total_number_of_transactions
-for transaction in transactions:
-    if transaction == "deposit":
-        total_deposit_amount += transaction[3]
-        return total_deposit_amount
-    elif transaction == "withdrawal":
-        total_withdrawal_amount += transaction[3]
-        return total_withdrawal_amount
+def summarize_financial_trnsactions(transactions):
+    total_number_of_transactions:int = 0
+    total_withdrawal_amount: float = 0.0
+    total_deposit_amount: float = 0.0
+    account_balances: dict[str, float] = {}
+    negative_balance_accounts: list[str] = []
+    for transaction in transactions:
+        transaction_id = transaction[0]
+        account = transaction[1]
+        transaction_type = transaction[2]
+        amount = transaction[3]
+        total_number_of_transactions = len(transaction_id)
+        if transaction_type == "withdrawal":
+            total_withdrawal_amount += "withdrawal"
+        elif transaction_type == "deposit":
+            total_deposit_amount += "deposit"
+            account_balances.setdefault(account, amount = {})
+
+
+
+
+
+
     
     
 
