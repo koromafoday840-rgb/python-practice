@@ -25,22 +25,23 @@ def summarize_financial_transactions(transactions):
         transaction_type = transaction[2]
         amount = transaction[3]
         total_transactions = len(transactions)
-        if transaction_type == "withdrawal":
-            total_withdrawal_amount += amount
-        elif transaction_type == "deposit":
-            total_deposit_amount += amount
-            account_balances.setdefault(account, 0.0)
-        elif negative_balance_accounts[account] < 0:
-            negative_balance_accounts.append(account)               
-        return(
-                total_transactions,
-                total_withdrawal_amount,
-                total_deposit_amount,
-                account_balances,
-                negative_balance_accounts
-            )
-result = summarize_financial_transactions(transactions)
-print(result)
+        account_balances.setdefault(account, 0.0)
+        if transaction_type == "deposit":
+            account_balances[account] += amount
+        elif transaction_type == "withdrawal":
+            account_balances[account] -= amount
+        elif account_balances[account] < 0:
+            negative_balance_accounts.append()
+    return(
+        total_transactions,
+        account_balances,
+        total_deposit_amount,
+        total_withdrawal_amount,
+        negative_balance_accounts
+    )
+results = summarize_financial_transactions(transactions)
+print(results)
+
 
 
 
