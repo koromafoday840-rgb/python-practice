@@ -19,28 +19,31 @@ def summarize_financial_transactions(transactions):
     total_deposit_amount: float = 0.0
     account_balances: dict[str, float] = {}
     negative_balance_accounts: list[str] = []
+    total_transactions = len(transactions)
     for transaction in transactions:
-        transaction_id = transaction[0]
-        account = transaction[1]
-        transaction_type = transaction[2]
-        amount = transaction[3]
-        total_transactions = len(transactions)
+        transaction_id, account, transaction_type, amount = transaction
         account_balances.setdefault(account, 0.0)
         if transaction_type == "deposit":
             account_balances[account] += amount
+            total_deposit_amount += amount
         elif transaction_type == "withdrawal":
             account_balances[account] -= amount
-        elif account_balances[account] < 0:
-            negative_balance_accounts.append()
+            total_withdrawal_amount += amount
+        if account_balances[account] < 0:
+            if account not in negative_balance_accounts:
+                negative_balance_accounts.append(account)
     return(
-        total_transactions,
-        account_balances,
-        total_deposit_amount,
-        total_withdrawal_amount,
-        negative_balance_accounts
+         total_transactions,
+         total_deposit_amount,
+         total_withdrawal_amount,
+         account_balances,
+         negative_balance_accounts 
+
     )
 results = summarize_financial_transactions(transactions)
 print(results)
+
+
 
 
 
