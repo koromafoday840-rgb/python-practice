@@ -13,50 +13,37 @@ transactions: list[tuple[str, str, str, float]] = [
 ("TNX011", "ACC600", "withdrawal", 964.8)
 ]
 
-def summarize_financial_transactions(transactions):
-    """ This function summarizes financial transactions that processes 
-    the total withdrawal and deposit amounts, negative accounts detection and 
-    fraud.
-    """
-    total_transactions:int = 0
-    total_withdrawal_amount: float = 0.0
-    total_deposit_amount: float = 0.0
+transaction_id = transactions[0]
+account = transactions[1]
+transaction_type = transactions[2]
+amount = transactions[3]
+
+def initialize_account(variables):
+    deposit_total: float = 0.0
+    withdrawal_total: float = 0.0
     account_balances: dict[str, float] = {}
-    negative_balance_accounts: list[str] = []
-    total_transactions = len(transactions)
-    large_transactions: list[str] = []
-    suspicious_accounts: list[str] = []
+    negative_account_balances: list[str, float] = []
+    suspious_account: list[str] = []
     withdrawal_count_per_account: dict[str, int] = {}
-    for transaction in transactions:
-        transaction_id, account, transaction_type, amount = transaction
+    total_transactions: int = 0
+
+    def update_account_balances(account: str, amount: float):
         account_balances.setdefault(account, 0.0)
-        withdrawal_count_per_account.setdefault(account, 0)
         if transaction_type == "deposit":
             account_balances[account] += amount
-            total_deposit_amount += amount
         elif transaction_type == "withdrawal":
             account_balances[account] -= amount
-            total_withdrawal_amount += amount
-        elif amount > 1000.0:
-            large_transactions.append(account)
-        elif withdrawal_count_per_account[account] >= 3:
-            withdrawal_count_per_account[account] += 1
-            suspicious_accounts.append(account)
+
+    def detect_large_transactions(account: float):
         if account_balances[account] < 0:
-            #  Checking for negative accounts to detect overdraft.
-            if account not in negative_balance_accounts:
-                negative_balance_accounts.append(account)
-    return(
-         total_transactions,
-         total_deposit_amount,
-         total_withdrawal_amount,
-         account_balances,
-         large_transactions,
-         suspicious_accounts,
-         negative_balance_accounts 
-)
-results = summarize_financial_transactions(transactions)
-print(results)
+            negative_account_balances.append(account)
+
+    def update_totals(transaction_type: str):
+        if transaction_type == "deposit":
+            deposit_total += amount
+        elif transaction_type == "withdrawal":
+            withdrawal_total += amount
+        
 
 
 
@@ -75,6 +62,5 @@ print(results)
 
     
     
-
 
 
