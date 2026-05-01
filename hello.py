@@ -12,43 +12,28 @@ transactions: list[tuple[str, str, str, float]] = [
 ("TNX010", "ACC600", "deposit", 756.9),
 ("TNX011", "ACC600", "withdrawal", 964.8)
 ]
-
-transaction_id = transactions[0]
-account = transactions[1]
-transaction_type = transactions[2]
-amount = transactions[3]
-
-def initialize_account(variables):
-    deposit_total: float = 0.0
-    withdrawal_total: float = 0.0
+# This function initializes the empty variables that will be updated by the main function.
+def initialze_tracking_structures():
+    total_deposit: float = 0.0
+    total_withdrawal: float = 0.0
     account_balances: dict[str, float] = {}
-    negative_account_balances: list[str, float] = []
-    suspious_account: list[str] = []
-    withdrawal_count_per_account: dict[str, int] = {}
-    total_transactions: int = 0
+    negative_account_balance: list[str] = []
 
-    def update_account_balances(account: str, amount: float):
-        account_balances.setdefault(account, 0.0)
-        if transaction_type == "deposit":
-            account_balances[account] += amount
-        elif transaction_type == "withdrawal":
-            account_balances[account] -= amount
+def process_transactions(transaction, account_balances):
+    transaction_id, account, transaction_type, amount = transaction
+    account_balances.setdefault(account, 0.0)
+    if transaction_type == "deposit":
+        account_balances += amount
+        total_deposit += amount
+    elif transaction_type == "withdrawal":
+        account_balances -= amount
+        total_withdrawal += amount
 
-    def detect_large_transactions(account: float):
-        if account_balances[account] < 0:
-            negative_account_balances.append(account)
-
-    def update_totals(transaction_type: str):
-        if transaction_type == "deposit":
-            deposit_total += amount
-        elif transaction_type == "withdrawal":
-            withdrawal_total += amount
-        
-
-
-
-
-
+# This function detects accounts whose balances are negative; it helps
+# detects fraud and bank overdraft.
+def detect_risk(account, account_balances):
+    if account_balances[account] < 0:
+        negative_account_balance.append(account)
 
 
 
