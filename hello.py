@@ -12,28 +12,45 @@ transactions: list[tuple[str, str, str, float]] = [
 ("TNX010", "ACC600", "deposit", 756.9),
 ("TNX011", "ACC600", "withdrawal", 964.8)
 ]
-# This function initializes the empty variables that will be updated by the main function.
-def initialze_tracking_structures():
+
+def initialize_tracking_structures():
     total_deposit: float = 0.0
     total_withdrawal: float = 0.0
     account_balances: dict[str, float] = {}
-    negative_account_balance: list[str] = []
+    negative_account_balances: list[str] = []
+    return(
+        total_deposit,
+        total_withdrawal,
+        account_balances,
+        negative_account_balances
+    )
 
-def process_transactions(transaction, account_balances):
-    transaction_id, account, transaction_type, amount = transaction
-    account_balances.setdefault(account, 0.0)
+def process_transaction(transaction, account_balances):
+    transaction_id, account_id, transaction_type, amount = transaction
+    account_balances.setdefault(account_id, 0.0)
     if transaction_type == "deposit":
-        account_balances += amount
-        total_deposit += amount
+        account_balanes[account_id] += amount
     elif transaction_type == "withdrawal":
-        account_balances -= amount
-        total_withdrawal += amount
+        account_balances[account_id] -= amount
+    return account_balances
 
-# This function detects accounts whose balances are negative; it helps
-# detects fraud and bank overdraft.
+    
 def detect_risk(account, account_balances):
-    if account_balances[account] < 0:
-        negative_account_balance.append(account)
+    if account_balances[account_id] < 0:
+        negative_account_balances.append(account_id)
+    return negative_account_balances
+
+    
+def summarize_transactions(transactions):
+    for transaction in transactions:
+        if transaction_type == "deposit":
+            total_deposit += amount
+        elif transaction_type == "withdrawal":
+            total_withdrawal += amount
+
+
+
+
 
 
 
