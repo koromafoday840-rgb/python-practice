@@ -35,10 +35,13 @@ def process_transaction(transaction, account_balances):
     return account_balances
 
     
-def detect_risk(account, account_balances):
-    if account_balances[account_id] < 0:
-        negative_account_balances.append(account_id)
-    return negative_account_balances
+def detect_risk(negative_account_balances: dict[str, float]) ->list[str]:
+    negative_account_balances: list[str] = []
+    for account_id, balance in negative_account_balances.items():
+        if balance < 0:
+            negative_account_balances.append(account_id)
+        return negative_account_balances
+
 
     
 def summarize_transactions(transactions):
